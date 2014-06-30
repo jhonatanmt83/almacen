@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% block content %}
+<section id='cuerpo'>
+    <br>
+    <div id='ingreso'>
+        <a href='/control/ingreso/' class='menu'>Ingreso</a>
+        <a href='/control/salida/' class='menu'>Salida</a>
+        <a href='/control/reporte/' class='menu'>Reportes</a>
+    </div> <br>
+    <h2>Registro de Ingreso de Productos</h2>
+    <br/>
+    <div id='stylized' class='myform'>
+    <form  method='post' action='' id='formu_ingreso'>{% csrf_token %}
+        <li>
+            <label for="id_producto">Producto:</label>
+            <input type ='text' name="nproducto" id="n_producto" readonly='True'/>
+            <input type='hidden' name="producto" id="id_producto"/>
+            <input type="button" value="Buscar" id='buscar_link' class='bot2'/>
+        </li>
+        <br/>
+        {{ formulario.as_ul}}
+
+        <li>
+            <input type='checkbox' name='usar_todo' value='yes' id='usar_todo_check'>Usar todo<br/>
+        </li>
+        <div id='usar_todo_option'>
+            <li>
+                <label for="id_producto">Usar todo en:</label><br/>
+                <input type='radio' name='option' value='D' checked id='d_option'>Desayuno</radio>
+            </li>
+            <li>
+                <input type='radio' name='option' value='A' id='a_option'>Almuerzo</radio>
+            </li>
+        </div>
+        <li>
+            <input id='envio' type="submit" value="Ingresar" class='bot'/>
+            <!--<input type="button" value="Usar todo" class='bot' id='usar_todo'/>-->
+        </li>
+    </form>
+    </div>
+    <div style="clear: both;">&nbsp;</div>
+</section>
+
+<div id='buscar_dialog' title="Buscar Producto">
+    <div id='stylized2' class='myform2'>
+    {{ bform.as_ul }}
+    <li>
+        <input type="button" value="Buscar" id='busqueda_link' class='bot3'/>
+        <input type="button" value="Nuevo Producto" id='agregar_link' class='bot4'/>
+    </li>
+    </div>
+    <div id='resultados'>
+        <table id="mytable" class='table1'>
+            <caption>Resultados</caption>
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody id='resu'>
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="row">Total</th>
+                    <td colspan="3" id='total_resultados'>0 coincidencias</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+<div id='agregar_dialog' title="Nuevo Producto">
+    <div id='stylized2' class='myform3'>
+    {{ npform.as_ul }}
+    </div>
+</div>
+<div id='usar_todo_dialog' title="Usar todo">
+    <div id='stylized2' class='myform3'>
+    <label for='tipo_comida'>Comida</label>
+    <select name='comida' id='tipo_comida'>
+        <option value='D'>Desayuno</option>
+        <option value='A'>Almuerzo</option>
+    </select>
+    </div>
+</div>
+{% if mensaje %}
+<div id='mensaje_dialog' title='{{mensaje.titulo}}'>
+{{mensaje.contenido}}
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/static/js/script_ingreso.js"></script>
+{% if datos.producto != '' %}
+<script type="text/javascript">
+    $('#id_producto').val({{datos.producto}});
+    $('#n_producto').val("{{datos.nombre_producto}}");
+</script>
+{% endif %}
+{% if datos.option_usar_todo %}
+<script type="text/javascript">
+    $("#usar_todo_check").attr("checked","checked");
+    $('#usar_todo_option').show();
+    $('#d_option').removeAttr('checked');
+    $('#a_option').removeAttr('checked');
+    if ("{{datos.option_usar_todo}}"=='D'){
+        $('#d_option').attr("checked","checked");
+    }else{
+        $('#a_option').attr("checked","checked");
+    }
+
+
+</script>
+{% else %}
+<script type="text/javascript">
+    $('#usar_todo_option').hide();
+</script>
+{% endif %}
+{% endblock %}
+
+
+{% block css %}
+<link type="text/css" href="/static/css/custom-theme/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="/static/css/styles_table.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/prettyForms.css"/>
+{% endblock %}

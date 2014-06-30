@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<section id='cuerpo'>
+    <h2>Agregar Proveedor</h2>
+    <br/>
+    <div id='stylized' class='myform'>
+    <form  method='post' action=''>{% csrf_token %}
+        {{ formulario.as_ul}}
+        <li>
+            <input id='envio' type="submit" value="Agregar" class='bot'/>
+        </li>
+    </form>
+    </div>
+    <div style="clear: both;">&nbsp;</div>
+</section>
+{% if mensaje %}
+<div id='mensaje_dialog' title='{{mensaje.titulo}}'>
+{{mensaje.contenido}}
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/static/js/script_proveedor.js"></script>
+{% endblock %}
+
+
+{% block css %}
+<link type="text/css" href="/static/css/custom-theme/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="/static/css/prettyForms.css"/>
+{% endblock %}

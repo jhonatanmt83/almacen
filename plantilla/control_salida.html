@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<section id='cuerpo'>
+    <br>
+    <div id='ingreso'>
+        <a href='/control/ingreso/' class='menu'>Ingreso</a>
+        <a href='/control/salida/' class='menu'>Salida</a>
+        <a href='/control/reporte/' class='menu'>Reportes</a>
+    </div> <br>
+    
+    <h2>Registro de Salida de Productos</h2>
+    <br/>
+    <div id='stylized' class='myform'>
+    <form  method='post' action='' id='formu_salida'>{% csrf_token %}
+        <li>
+            <label for="id_producto">Producto:</label>
+            <input name="producto" id="id_producto" readonly='True'/>
+            <input type="button" value="Buscar" id='buscar_link' class='bot2'/>
+        </li>
+        <br/>
+        {{ formulario.as_ul}}
+        <li>
+            <input id='envio' type="submit" value="Ingresar" class='bot'/>
+        </li>
+    </form>
+    </div>
+    <div style="clear: both;">&nbsp;</div>
+</section>
+
+<div id='buscar_dialog' title="Buscar Producto">
+    <div id='stylized2' class='myform2'>
+    {{ bform.as_ul }}
+    <li>
+        <input type="button" value="Buscar" id='busqueda_link' class='bot2'/>
+    </li>
+    </div>
+    <div id='resultados'>
+        <table id="mytable" class='table1'>
+            <caption>Resultados</caption>
+            <thead>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Tipo</th>
+                </tr>
+            </thead>
+            <tbody id='resu'>
+                
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="row">Total</th>
+                    <td colspan="3" id='total_resultados'>0 coincidencias</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% if mensaje %}
+<div id='mensaje_dialog' title='{{mensaje.titulo}}'>
+{{mensaje.contenido}}
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+var cantidad=0;
+</script>
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="/static/js/script_salida.js"></script>
+<script type="text/javascript">
+    $('#persona_id').val({{datos.persona}});
+</script>
+{% if datos.producto != '' %}
+<script type="text/javascript">
+    $('#id_producto').val({{datos.producto}});
+</script>
+{% endif %}
+{% if datos.stock %}
+<script type="text/javascript">
+    cantidad = {{datos.stock}};
+</script>
+{% endif %}
+{% endblock %}
+{% block css %}
+<link type="text/css" rel="stylesheet" href="/static/css/custom-theme/jquery-ui-1.8.13.custom.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/styles_table.css" />
+<link type="text/css" rel="stylesheet" href="/static/css/prettyForms.css"/>
+{% endblock %}

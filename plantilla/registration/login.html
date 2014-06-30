@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section id='cuerpo'>
+<form  method='post' action=''>{% csrf_token %}
+    <fieldset>
+        <legend>Bienvenido Encargado </legend>
+            {{formu.as_ul}}
+            <div class="cleaner_h10"></div>
+            <input id='envio' type="submit" value="Ingresar"/>
+            <a href='#'><input type="button" value="Regresar al inicio"/></a>
+    </fieldset>
+</form>
+</section>
+{% endblock %}

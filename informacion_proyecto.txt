@@ -1,0 +1,20 @@
+Sistema de Almacén
+
+- En sistema contara de una base de datos que registrara la entrada y 
+  salida de insumos para el comedor universitario.
+
+- Registraran los proveedores, identificándolos por su Guía de Remisión,
+  la hora y fecha en la que dejan los insumos al almacén previamente 
+  revisados.
+ 
+- Los insumos se identificaran por un código, al momento de regístralos 
+  al sistema este guardara la hora y fecha, cantidad, tipo de insumo y su
+  proveedor correspondiente.
+ 
+- Para el registro de la salida de insumos se ingresara al sistema la
+  cantidad a retirar este guardara la fecha y hora, cantidad retirada,
+  stock restante.
+
+- Los reportes se darán en forma mensual, mostrando la cantidad 
+  ingresada de insumos y el monto gastado en todo el mes.
+

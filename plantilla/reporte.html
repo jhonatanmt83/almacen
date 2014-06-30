@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block cssb %}
+    <link rel="stylesheet" href="/static/css/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="/static/css/bootstrap-responsive.css" media="screen">
+{% endblock %}
+{% block content %}
+<section id='cuerpo'>
+    <br>
+    <div id='ingreso'>
+        <a href='/control/ingreso/' class='menu'>Ingreso</a>
+        <a href='/control/salida/' class='menu'>Salida</a>
+        <a href='/control/reporte/' class='menu'>Reportes</a>
+    </div> <br>
+    <div class='row'>
+        <div class='span9 pull-right'>
+            <div class='span3 pull-left'>
+            <h2>Reporte por mes</h2><br/>
+            <form action='.' method='post' class='form form-horizontal'>{% csrf_token %}
+                <!--label for='mes'>Mes</label-->
+                <input type='hidden' name='tipo_reporte' value='mes'/>
+                <select name='mes' id='mes'>
+                    <option value='1'>Enero</option>
+                    <option value='2'>Febrero</option>
+                    <option value='3'>Marzo</option>
+                    <option value='4'>Abril</option>
+                    <option value='5'>Mayo</option>
+                    <option value='6'>Junio</option>
+                    <option value='7'>Julio</option>
+                    <option value='8'>Agosto</option>
+                    <option value='9'>Setiembre</option>
+                    <option value='10'>Octubre</option>
+                    <option value='11'>Noviembre</option>
+                    <option value='12'>Diciembre</option>
+                </select>
+                <!--label for='anio'>Año</label-->
+                <select name='anio' id='anio'>
+                    <option value='2012'>2012</option>
+                    <option value='2013'>2013</option>
+                    <option value='2014'>2014</option>
+                    <option value='2015'>2015</option>
+                    <option value='2016'>2016</option>
+                    <option value='2017'>2017</option>
+                    <option value='2018'>2018</option>
+                    <option value='2019'>2019</option>
+                    <option value='2020'>2020</option>
+                </select>
+
+                <input class='btn btn-primary' type='submit' value='Consultar'/>
+            </form>
+            </div>
+            <div class='span5'>
+            <h2>Reporte por dia</h2><br/>
+            <form action='.' method='post' class='form-inline'>{% csrf_token %}
+                <label for='mes'>Fecha : </label>
+                <input type='hidden' name='tipo_reporte' value='dia'/>
+                <input type="text" id="fecha" name='fecha'/>
+
+                <input class='btn btn-primary' type='submit' value='Consultar'/>
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <hr/>
+    {% if reporte == 'dia' %}
+        <div class='form form-inline pull-left'>
+            <label>Nº</label> <input type='text'/><br><br>
+            <input class='btn btn-success pull-left' type='button' value='Imprimir' onclick="window.print();return false;"/>
+        </div>
+        <div class='tabla'>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stock restante</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Detalle</th>
+                    <th>Precio Unitario</th>
+                    <th>Precio Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for desayuno in desayunos %}
+                    <tr>
+                        <td>{{desayuno.stock_restante}}</td>
+                        <td>{{desayuno.cantidad}}</td>
+                        <td>{{desayuno.tipo_cantidad}}</td>
+                        <td>{{desayuno.producto}}</td>
+                        <td>S/. {{desayuno.precio_unitario}}</td>
+                        <td>S/. {{desayuno.precio_total}}</td>
+                    </tr>
+                {% endfor %}
+                <tr></tr>
+                {% for almuerzo in almuerzos %}
+                    <tr>
+                        <td>{{almuerzo.stock_restante}}</td>
+                        <td>{{almuerzo.cantidad}}</td>
+                        <td>{{almuerzo.tipo_cantidad}}</td>
+                        <td>{{almuerzo.producto}}</td>
+                        <td>S/. {{almuerzo.precio_unitario}}</td>
+                        <td>S/. {{almuerzo.precio_total}}</td>
+                    </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+        </div>
+    {% elif reporte == 'mes' %}
+        <h2>Productos usados en {{mes}}</h2>
+        {% for producto in productos%}
+            {{ producto.producto.tipo }} - {{ producto.producto.nombre }}
+            <div class='tabla'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Proveedor</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for dia in producto.dias %}
+                        <tr>
+                            <td>{{dia.dia}}</td>
+                            <td>{{dia.proveedor}}</td>
+                            <td>{{dia.cantidad}}</td>
+                            <td>{{dia.unidad}}</td>
+                            <td>{{dia.total}}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan=4 ></td>
+                        <td>{{producto.total}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        {% endfor%}
+
+    {% endif %}
+    <br/>
+    <div style="clear: both;">&nbsp;</div>
+</section>
+{% if mensaje %}
+<div id='mensaje_dialog' title='{{mensaje.titulo}}'>
+{{mensaje.contenido}}
+</div>
+{% endif %}
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/jquery-ui-1.8.16.custom.min.js"></script>
+<script>
+    $(function() {
+        $( "#fecha" ).datepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+    });
+    </script>
+{% if id_mes != '' %}
+<script type="text/javascript">
+    $('#mes').val({{ id_mes }});
+</script>
+{% endif %}
+{% if reporte == 'dia' %}
+<script type="text/javascript">
+    $('#fecha').val("{{ fecha }}");
+</script>
+{% endif %}}
+{% endblock %}
+
+
+{% block css %}
+<link type="text/css" href="/static/css/custom-theme/jquery-ui-1.8.13.custom.css" rel="stylesheet" />
+<link rel="stylesheet" href="/static/css/styles_table.css" />
+{% endblock %}

@@ -1,0 +1,66 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+	<title>{% block title %}Control de almacen{% endblock %}</title>
+	<meta name="description" content="fdt">
+	<meta name="author" content="fdt">
+
+	<meta name="viewport" content="width=device-width">
+
+	<link rel="stylesheet" href="/static/css/style.css">
+    
+    {% block css %}{% endblock %}
+    {% block cssb %}{% endblock %}     
+	<script src="/static/js/libs/modernizr-2.5.3.min.js"></script>
+    <script src="/static/js/jquery-1.7.2.min.js"></script>
+	<script src="/static/js/bootstrap.js"></script>
+    
+</head>
+<body>
+<!--[if lt IE 7]><p class=chromeframe>Tu navegador es <em>desfasado!</em> <a href="http://browsehappy.com/">Actualiza a uno mas moderno</a> o <a href="http://www.google.com/chromeframe/?redirect=true">instala Google Chrome Frame</a> para un mejor rendimiento del sitio.</p><![endif]-->
+
+<header>
+    <hgroup>
+<!--
+        <h1> OGBU | UNCP </h1>
+-->
+        <a href="#" id="logo"><img src="/static/images/logo.png" width="210" height="76" alt="logo"/></a>
+        <h2>"Oficina General de Bienestar Universitario | UNCP"</h2>
+    </hgroup>
+</header>
+<div role="main">
+{% block content %}
+
+{% endblock %}
+</div>
+{% block pie %}
+<footer>
+    <p><strong> Copyright &copy; 2012 - <a href="#">OGBU</a> | <a href="#">UNCP</a> | <a href="#">FDT</a> </strong></p>
+    <p><strong>FDT</strong>. | Todos los derechos reservados | <a href="#">Aviso Legal</a> | <a href="#">Accesibilidad</a></p>
+</footer>
+{% endblock %}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/static/js/libs/jquery-1.7.1.min.js"><\/script>')</script>
+
+
+
+<script src="/static/js/plugins.js"></script>
+<script src="/static/js/script.js"></script>
+{% block javascript %}{% endblock %}
+<script>
+	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+	s.parentNode.insertBefore(g,s)}(document,'script'));
+</script>
+
+</body>
+</html>
+
